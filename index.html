@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.bunny.net">
+  <link href="https://fonts.bunny.net/css?family=montserrat:400" rel="stylesheet" />
+  <script defer src="script.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script> //script configuration framework CSS Tailwind
+    tailwind.config = {
+      theme: {
+
+        fontFamily: {
+          'montserrat': ['Montserrat', 'sans-serif'],
+
+        },
+        extend: {
+          colors: {
+            'dark-gray': '#2F2F2F',
+
+          },
+          dropShadow: {
+            '4xl': ['2px 2px 4px 0px rgba(0, 0, 0, 0.12)',
+              '-2px -2px 4px 0px rgba(255, 255, 255, 0.25)'],
+
+          }
+
+
+        }
+      }
+    }
+  </script>
+  <title>WeatherApp</title>
+</head>
+
+<!-- background image -->
+
+<body class="bg-cover bg-no-repeat bg-center bg-[url('images/BGunsplash.jpg')]">
+
+  <!-- header: icons settings heart icon and search icon -->
+  <div>
+    <header class="backdrop-blur-md backdrop-opacity-70 shadow-xl px-5 py-2">
+      <div class="flex justify-between">
+        <a href="#">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path opacity="0.5"
+              d="M8.94736 6.83337H13.6842M7.36841 11.0556H13.6842M7.36841 8.94449H13.6842M7.36841 6.83337H7.5263"
+              stroke="white" stroke-linecap="round" />
+            <path opacity="0.5"
+              d="M9.23591 17.4056L9.23449 17.4042C6.64038 14.9686 4.56609 13.0159 3.12866 11.195C1.70317 9.3892 1 7.82904 1 6.19482C1 3.51577 3.00364 1.5 5.5 1.5C6.92453 1.5 8.31844 2.19201 9.23011 3.29185C9.42009 3.52104 9.7023 3.65368 10 3.65368C10.2977 3.65368 10.5799 3.52104 10.7699 3.29185C11.6816 2.19201 13.0755 1.5 14.5 1.5C16.9964 1.5 19 3.51577 19 6.19482C19 7.82904 18.2968 9.3892 16.8713 11.195C15.4339 13.0159 13.3596 14.9686 10.7655 17.4042L10.7641 17.4056L10 18.1258L9.23591 17.4056Z"
+              stroke="white" stroke-width="2" stroke-linejoin="round" />
+          </svg>
+        </a>
+
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path opacity="0.5"
+            d="M22 22L15.3333 15.3333M2 9.77778C2 10.7992 2.20118 11.8106 2.59205 12.7542C2.98292 13.6978 3.55582 14.5553 4.27806 15.2775C5.00029 15.9997 5.85771 16.5726 6.80135 16.9635C7.74499 17.3544 8.75639 17.5556 9.77778 17.5556C10.7992 17.5556 11.8106 17.3544 12.7542 16.9635C13.6978 16.5726 14.5553 15.9997 15.2775 15.2775C15.9997 14.5553 16.5726 13.6978 16.9635 12.7542C17.3544 11.8106 17.5556 10.7992 17.5556 9.77778C17.5556 8.75639 17.3544 7.74499 16.9635 6.80135C16.5726 5.85771 15.9997 5.00029 15.2775 4.27806C14.5553 3.55582 13.6978 2.98292 12.7542 2.59205C11.8106 2.20118 10.7992 2 9.77778 2C8.75639 2 7.74499 2.20118 6.80135 2.59205C5.85771 2.98292 5.00029 3.55582 4.27806 4.27806C3.55582 5.00029 2.98292 5.85771 2.59205 6.80135C2.20118 7.74499 2 8.75639 2 9.77778Z"
+            stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+    </header>
+
+    <!-- weather-card -->
+    <div class=" flex flex-col items-center rounded-[25px] bg-white/20 backdrop-blur-sm m-5 pt-4">
+      <div class="flex ">
+        <style>
+          h1 {
+            text-shadow: -2px -2px 4px rgba(255, 255, 255, 0.25), 2px 2px 4px rgba(0, 0, 0, 0.12);
+            font-variant: small-caps;
+          }
+        </style>
+        <h1 class="font-medium text-2xl shadow-3xl ">Besançon</h1>
+
+        <button id="like" class="absolute right-5 mt-1.5">
+          <svg id="emptyHeart" class="" xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20"
+            fill="none">
+            <path
+              d="M9.32091 18.1979L9.3202 18.1972C6.60692 15.6433 4.3941 13.5569 2.85377 11.6008C1.31944 9.65224 0.5 7.89067 0.5 5.99455C0.5 2.8857 2.83398 0.5 5.775 0.5C7.44378 0.5 9.05915 1.30908 10.1147 2.58564L10.5 3.05168L10.8853 2.58564C11.9408 1.30908 13.5562 0.5 15.225 0.5C18.166 0.5 20.5 2.8857 20.5 5.99455C20.5 7.89067 19.6806 9.65224 18.1462 11.6008C16.6059 13.5569 14.3931 15.6433 11.6798 18.1972L11.6791 18.1979L10.5 19.3121L9.32091 18.1979Z"
+              stroke="#CA0000" />
+          </svg>
+
+          <svg id="fullHeart" class="hidden" xmlns="http://www.w3.org/2000/svg" width="21" height="20"
+            viewBox="0 0 21 20" fill="none">
+            <path
+              d="M10.5 20L8.9775 18.5613C3.57 13.4714 0 10.1035 0 5.99455C0 2.6267 2.541 0 5.775 0C7.602 0 9.3555 0.882834 10.5 2.26703C11.6445 0.882834 13.398 0 15.225 0C18.459 0 21 2.6267 21 5.99455C21 10.1035 17.43 13.4714 12.0225 18.5613L10.5 20Z"
+              fill="#D13D3D" />
+          </svg>
+        </button>
+
+      </div>
+      <div>
+
+      </div>
+
+      <!-- weather elements within the weather-card -->
+
+      <div class="flex flex-row items-center pt-1.5 text-base font-normal">
+        <svg xmlns="http://www.w3.org/2000/svg" width="39" height="32" viewBox="0 0 39 32" fill="none">
+          <g filter="url(#filter0_dd_16_37)">
+            <g clip-path="url(#clip0_16_37)">
+              <mask id="mask0_16_37" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="6" y="6" width="27"
+                height="20">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M6 6H33V26H6V6Z" fill="white" />
+              </mask>
+              <g mask="url(#mask0_16_37)">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M24.5625 6H33V26H24.5625V6Z" fill="#F50100" />
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M6 6H16.125V26H6V6Z" fill="#2E42A5" />
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M14.4375 6H24.5625V26H14.4375V6Z" fill="#F7FCFF" />
+              </g>
+            </g>
+          </g>
+          <defs>
+            <filter id="filter0_dd_16_37" x="0" y="0" width="39" height="32" filterUnits="userSpaceOnUse"
+              color-interpolation-filters="sRGB">
+              <feFlood flood-opacity="0" result="BackgroundImageFix" />
+              <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                result="hardAlpha" />
+              <feOffset dx="2" dy="2" />
+              <feGaussianBlur stdDeviation="2" />
+              <feComposite in2="hardAlpha" operator="out" />
+              <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.12 0" />
+              <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_16_37" />
+              <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                result="hardAlpha" />
+              <feOffset dx="-2" dy="-2" />
+              <feGaussianBlur stdDeviation="2" />
+              <feComposite in2="hardAlpha" operator="out" />
+              <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.25 0" />
+              <feBlend mode="normal" in2="effect1_dropShadow_16_37" result="effect2_dropShadow_16_37" />
+              <feBlend mode="normal" in="SourceGraphic" in2="effect2_dropShadow_16_37" result="shape" />
+            </filter>
+            <clipPath id="clip0_16_37">
+              <rect x="6" y="6" width="27" height="20" rx="10" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+        France
+      </div>
+
+      <div class="text-2xl font-normal mb-3">
+        14:11
+      </div>
+
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" width="110" height="110" viewBox="0 0 110 110" fill="none">
+          <path
+            d="M55 16.5385V5M27.8038 27.8038L19.6462 19.6462M16.5385 55H5M55 105V93.4615M90.3538 90.3538L82.1961 82.2M105 55H93.4615M27.8038 82.1961L19.6462 90.3538M90.3538 19.6462L82.2 27.8038M78.0769 55C78.0769 61.1204 75.6456 66.9901 71.3178 71.3178C66.9901 75.6456 61.1204 78.0769 55 78.0769C48.8796 78.0769 43.0099 75.6456 38.6822 71.3178C34.3544 66.9901 31.9231 61.1204 31.9231 55C31.9231 48.8796 34.3544 43.0099 38.6822 38.6822C43.0099 34.3544 48.8796 31.9231 55 31.9231C61.1204 31.9231 66.9901 34.3544 71.3178 38.6822C75.6456 43.0099 78.0769 48.8796 78.0769 55Z"
+            stroke="#F9AB37" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+
+      <div class="text-4xl mt-2 mb-7">25°C</div>
+
+      <div class="flex flex-col rounded-[20px] bg-white/0 backdrop-blur-sm w-52 px-4 py-2 text-sm font-normal">
+        <div>
+          <div class="flex flex-row justify-between h-7 py-1">
+            <div>16:00 </div>
+            <div class="flex">
+              <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">
+                <path
+                  d="M9.5 2.84615V1M5.14862 4.64862L3.84338 3.34338M3.34615 9H1.5M9.5 17V15.1538M15.1566 14.6566L13.8514 13.352M17.5 9H15.6538M5.14862 13.3514L3.84338 14.6566M15.1566 3.34338L13.852 4.64862M13.1923 9C13.1923 9.97926 12.8033 10.9184 12.1109 11.6109C11.4184 12.3033 10.4793 12.6923 9.5 12.6923C8.52074 12.6923 7.58159 12.3033 6.88914 11.6109C6.1967 10.9184 5.80769 9.97926 5.80769 9C5.80769 8.02074 6.1967 7.08159 6.88914 6.38914C7.58159 5.6967 8.52074 5.30769 9.5 5.30769C10.4793 5.30769 11.4184 5.6967 12.1109 6.38914C12.8033 7.08159 13.1923 8.02074 13.1923 9Z"
+                  stroke="#F9AB37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <div class="ml-2">25°C</div>
+            </div>
+          </div>
+          <div class="w-40 h-px bg-transparent/10"></div>
+          <div class="flex flex-row justify-between h-7 py-1">
+            <div>18:00 </div>
+            <div class="flex">
+              <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">
+                <path
+                  d="M9.5 2.84615V1M5.14862 4.64862L3.84338 3.34338M3.34615 9H1.5M9.5 17V15.1538M15.1566 14.6566L13.8514 13.352M17.5 9H15.6538M5.14862 13.3514L3.84338 14.6566M15.1566 3.34338L13.852 4.64862M13.1923 9C13.1923 9.97926 12.8033 10.9184 12.1109 11.6109C11.4184 12.3033 10.4793 12.6923 9.5 12.6923C8.52074 12.6923 7.58159 12.3033 6.88914 11.6109C6.1967 10.9184 5.80769 9.97926 5.80769 9C5.80769 8.02074 6.1967 7.08159 6.88914 6.38914C7.58159 5.6967 8.52074 5.30769 9.5 5.30769C10.4793 5.30769 11.4184 5.6967 12.1109 6.38914C12.8033 7.08159 13.1923 8.02074 13.1923 9Z"
+                  stroke="#F9AB37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <div class="ml-2">23°C</div>
+            </div>
+          </div>
+          <div class="w-40 h-px bg-transparent/10"></div>
+          <div class="flex flex-row justify-between h-7 py-1">
+            <div>20:00 </div>
+            <div class="flex">
+              <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+                <path
+                  d="M10.5936 1.52433C10.5936 1.38527 10.5418 1.2519 10.4497 1.15357C10.3575 1.05524 10.2325 1 10.1021 1C9.97178 1 9.84676 1.05524 9.75459 1.15357C9.66242 1.2519 9.61064 1.38527 9.61064 1.52433V2.57299C9.61064 2.71205 9.66242 2.84542 9.75459 2.94375C9.84676 3.04208 9.97178 3.09732 10.1021 3.09732C10.2325 3.09732 10.3575 3.04208 10.4497 2.94375C10.5418 2.84542 10.5936 2.71205 10.5936 2.57299V1.52433ZM14.2729 3.5839C14.3198 3.53553 14.3573 3.47767 14.383 3.4137C14.4088 3.34973 14.4224 3.28093 14.4229 3.21131C14.4235 3.14169 14.4111 3.07265 14.3864 3.00821C14.3616 2.94377 14.3251 2.88523 14.279 2.836C14.2329 2.78677 14.178 2.74783 14.1176 2.72147C14.0572 2.69511 13.9924 2.68184 13.9272 2.68244C13.8619 2.68305 13.7974 2.69751 13.7375 2.72499C13.6775 2.75247 13.6233 2.79242 13.5779 2.8425L12.882 3.5839C12.7897 3.68235 12.7379 3.81589 12.7379 3.95512C12.7379 4.09436 12.7897 4.2279 12.882 4.32635C12.9743 4.42481 13.0994 4.48012 13.23 4.48012C13.3605 4.48012 13.4857 4.42481 13.5779 4.32635L14.2729 3.5839ZM6.62631 2.8425C6.53362 2.74699 6.40947 2.69414 6.2806 2.69533C6.15173 2.69652 6.02846 2.75167 5.93733 2.84888C5.84621 2.9461 5.79452 3.07761 5.7934 3.21508C5.79228 3.35256 5.84182 3.48501 5.93135 3.5839L6.62631 4.32635C6.67201 4.3751 6.72626 4.41377 6.78597 4.44015C6.84567 4.46654 6.90966 4.48012 6.97429 4.48012C7.03891 4.48012 7.10291 4.46654 7.16261 4.44015C7.22232 4.41377 7.27657 4.3751 7.32226 4.32635C7.36796 4.2776 7.40421 4.21973 7.42894 4.15603C7.45367 4.09234 7.4664 4.02407 7.4664 3.95512C7.4664 3.88618 7.45367 3.81791 7.42894 3.75422C7.40421 3.69052 7.36796 3.63265 7.32226 3.5839L6.62631 2.8425ZM8.3308 6.38068C8.45297 6.11058 8.62802 5.87158 8.84413 5.67979C9.06024 5.488 9.31239 5.34789 9.58358 5.2689C9.85477 5.18991 10.1387 5.17389 10.4162 5.22191C10.6937 5.26992 10.9583 5.38087 11.1921 5.54725C11.426 5.71364 11.6237 5.9316 11.7719 6.18643C11.9201 6.44126 12.0154 6.72704 12.0513 7.02448C12.0871 7.32193 12.0628 7.62412 11.9799 7.91068C11.897 8.19724 11.7575 8.4615 11.5707 8.68563C11.7663 8.98031 11.9364 9.29595 12.0779 9.62733C12.411 9.30623 12.671 8.90822 12.8381 8.46365C13.0052 8.01908 13.0749 7.53969 13.0419 7.06202C13.0089 6.58435 12.8742 6.12102 12.6479 5.70735C12.4216 5.29368 12.1097 4.94059 11.7361 4.67501C11.3625 4.40942 10.937 4.23835 10.492 4.17484C10.047 4.11133 9.59425 4.15705 9.16833 4.30852C8.74241 4.45999 8.35453 4.71321 8.03427 5.04887C7.714 5.38453 7.46981 5.79377 7.3203 6.2454C7.66631 6.25693 8.00445 6.30308 8.3308 6.38068ZM14.5255 6.76763C14.3952 6.76763 14.2702 6.82287 14.178 6.9212C14.0858 7.01954 14.034 7.1529 14.034 7.29196C14.034 7.43102 14.0858 7.56439 14.178 7.66272C14.2702 7.76105 14.3952 7.81629 14.5255 7.81629H15.5085C15.6389 7.81629 15.7639 7.76105 15.856 7.66272C15.9482 7.56439 16 7.43102 16 7.29196C16 7.1529 15.9482 7.01954 15.856 6.9212C15.7639 6.82287 15.6389 6.76763 15.5085 6.76763H14.5255Z"
+                  fill="#F9AB37" stroke="#F9AB37" stroke-width="0.5" />
+                <path
+                  d="M6.56582 13.1661C6.56582 14.126 5.39862 14.9041 3.9588 14.9041C2.51898 14.9041 1.35178 14.126 1.35178 13.1661C1.35178 12.2062 2.51898 11.4281 3.9588 11.4281C5.39862 11.4281 6.56582 12.2062 6.56582 13.1661Z"
+                  fill="#D9D9D9" />
+                <path
+                  d="M14.0972 12.5868C14.0972 14.1866 12.8003 15.4835 11.2005 15.4835C9.60073 15.4835 8.30384 14.1866 8.30384 12.5868C8.30384 10.987 9.60073 9.69009 11.2005 9.69009C12.8003 9.69009 14.0972 10.987 14.0972 12.5868Z"
+                  fill="#D9D9D9" />
+                <path
+                  d="M11.2005 11.1384C11.2005 13.5381 9.38488 15.4835 7.14516 15.4835C4.90544 15.4835 3.08979 13.5381 3.08979 11.1384C3.08979 8.73874 4.90544 6.7934 7.14516 6.7934C9.38488 6.7934 11.2005 8.73874 11.2005 11.1384Z"
+                  fill="#D9D9D9" />
+                <path
+                  d="M11.5868 16.2559H3.0898C1.38578 16.2559 0 14.8701 0 13.1661C0.000796961 12.4811 0.228802 11.8157 0.648295 11.2742C1.06779 10.7327 1.65507 10.3456 2.31813 10.1736L2.31735 10.0763C2.31735 7.52026 4.39602 5.4416 6.95206 5.4416C7.91183 5.44001 8.84816 5.73796 9.63051 6.29391C10.4129 6.84987 11.0022 7.6361 11.3164 8.54299C13.589 8.35296 15.449 10.1752 15.449 12.3937C15.449 14.5233 13.7164 16.2559 11.5868 16.2559ZM3.01642 11.6166C2.23779 11.6212 1.5449 12.3141 1.5449 13.1661C1.5449 14.0181 2.23779 14.711 3.0898 14.711H11.5868C12.8644 14.711 13.9041 13.6713 13.9041 12.3937C13.9041 11.116 12.8644 10.0763 11.5868 10.0763C11.3991 10.0763 11.2005 10.108 10.9611 10.1767L10.1307 10.4139L9.98702 9.56185C9.86897 8.84228 9.49888 8.18814 8.94289 7.71635C8.3869 7.24456 7.68125 6.98586 6.95206 6.9865C6.49326 6.98694 6.04031 7.08944 5.62603 7.28658C5.21175 7.48372 4.84651 7.77056 4.55679 8.12631C4.26708 8.48206 4.06013 8.89781 3.95096 9.34343C3.84179 9.78905 3.83313 10.2534 3.9256 10.7028L4.11407 11.6289L3.01642 11.6166Z"
+                  fill="#959595" />
+              </svg>
+              <div class="ml-2">20°C</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a href="#">
+        <div id="buttonAllWeather"
+          class="pointer-events-auto rounded-full mb-5 shadow-[2px_2px_4px_0px] border-t-2 border-white/30 shadow-gray-700/50  inline w-52 mt-8 px-2 py-1.5 text-xs">
+          Toute la météo pour Besançon
+      </a>
+      <style>
+        #buttonAllWeather {
+          box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.12), -2px -2px 4px 0px rgba(255, 255, 255, 0.25);
+        }
+      </style>
+    </div>
+  </div>
+
+
+  <div class="rounded-[25px] bg-white/20 backdrop-blur-sm m-5 ">
+    <div class="text-xs text-center py-3 px-5">
+      Besançon, c’est très joli, il y a le musée du temps et une super horloge astronomique aussi.
+    </div>
+
+
+    <div id="buttonInfo">
+      <a href="#" class=" flex justify-center inline pb-2">
+        <div id="openInfo" class="px-8 py-2 text-xs font-normal">
+          En savoir plus
+        </div>
+        <style>
+          #openInfo {
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.01);
+            /* Neo shadow */
+            box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.12), -2px -2px 4px 0px rgba(255, 255, 255, 0.25);
+          }
+        </style>
+      </a>
+    </div>
+  </div>
+
+  <div class="flex items-center justify-between mr-3 ml-2">
+
+    <div class="px-3 py-2.5 rounded-[25px] bg-white/20 backdrop-blur-sm flex">
+      <svg class="" xmlns="http://www.w3.org/2000/svg" width="24" height="28" viewBox="0 0 24 28" fill="none">
+        <path opacity="0.5"
+          d="M22.661 4.90106L23.5607 5.76885L22.661 4.90106C22.6103 4.95357 22.5514 4.97434 22.5 4.97434H14.5813C13.4179 4.97434 12.4128 5.40575 11.5783 5.90239C10.9634 6.2683 10.355 6.72685 9.82749 7.12442C9.66332 7.24816 9.50698 7.36599 9.36073 7.47328C8.812 7.87582 8.1619 8.08841 7.5 8.08841C6.8381 8.08841 6.188 7.87582 5.63927 7.47328C5.42871 7.31881 5.23685 7.13913 5.0673 6.93819C4.33459 6.06982 3.12801 4.97434 1.5 4.97434C1.44855 4.97434 1.38968 4.95357 1.33903 4.90106C1.2869 4.84701 1.25 4.7644 1.25 4.66921C1.25 4.57402 1.2869 4.4914 1.33903 4.43735C1.38968 4.38484 1.44855 4.36407 1.5 4.36407C3.12801 4.36407 4.33459 3.2686 5.0673 2.40023L4.11196 1.59412L5.06731 2.40023C5.23685 2.19929 5.42871 2.0196 5.63927 1.86514C6.188 1.4626 6.8381 1.25 7.5 1.25C8.1619 1.25 8.812 1.4626 9.36073 1.86514C9.50699 1.97243 9.66332 2.09026 9.8275 2.21399C10.355 2.61156 10.9634 3.07011 11.5783 3.43602C12.4128 3.93266 13.4179 4.36407 14.5813 4.36407H22.5C22.5514 4.36407 22.6103 4.38484 22.661 4.43736C22.7131 4.4914 22.75 4.57401 22.75 4.66921C22.75 4.7644 22.7131 4.84702 22.661 4.90106ZM5.53965 2.70177L6.43934 3.56956L5.53965 2.70177C5.02917 3.23101 4.75 3.9395 4.75 4.66921C4.75 5.39891 5.02917 6.1074 5.53965 6.63664C6.05161 7.16742 6.7558 7.47434 7.5 7.47434C8.2442 7.47434 8.94839 7.16742 9.46035 6.63664C9.97083 6.1074 10.25 5.39891 10.25 4.66921C10.25 3.93951 9.97083 3.23101 9.46035 2.70177C8.94839 2.171 8.2442 1.86407 7.5 1.86407C6.7558 1.86407 6.05161 2.17099 5.53965 2.70177ZM16.5 11.1949C15.7558 11.1949 15.0516 11.5018 14.5397 12.0326C14.0292 12.5618 13.75 13.2703 13.75 14C13.75 14.7297 14.0292 15.4382 14.5397 15.9674C15.0516 16.4982 15.7558 16.8051 16.5 16.8051C17.2442 16.8051 17.9484 16.4982 18.4603 15.9674C18.9708 15.4382 19.25 14.7297 19.25 14C19.25 13.2703 18.9708 12.5618 18.4603 12.0326C17.9484 11.5018 17.2442 11.1949 16.5 11.1949ZM9.41867 13.6949C10.5821 13.6949 11.5872 13.2635 12.4217 12.7668C13.0366 12.4009 13.645 11.9424 14.1725 11.5448C14.3367 11.4211 14.493 11.3032 14.6393 11.1959C15.188 10.7934 15.8381 10.5808 16.5 10.5808C17.1619 10.5808 17.812 10.7934 18.3607 11.1959C18.5713 11.3504 18.7631 11.5301 18.9327 11.731C19.6654 12.5994 20.872 13.6949 22.5 13.6949C22.5515 13.6949 22.6103 13.7156 22.661 13.7681C22.7131 13.8222 22.75 13.9048 22.75 14C22.75 14.0952 22.7131 14.1778 22.661 14.2318C22.6103 14.2844 22.5514 14.3051 22.5 14.3051C20.872 14.3051 19.6654 15.4006 18.9327 16.269C18.7631 16.4699 18.5713 16.6496 18.3607 16.8041C17.812 17.2066 17.1619 17.4192 16.5 17.4192C15.8381 17.4192 15.188 17.2066 14.6393 16.8041C14.493 16.6968 14.3367 16.5789 14.1725 16.4552C13.645 16.0576 13.0366 15.5991 12.4217 15.2332C11.5872 14.7365 10.5821 14.3051 9.41867 14.3051H1.5C1.44856 14.3051 1.38968 14.2844 1.33903 14.2318C1.2869 14.1778 1.25 14.0952 1.25 14C1.25 13.9048 1.2869 13.8222 1.33903 13.7681C1.38968 13.7156 1.44855 13.6949 1.5 13.6949H9.41867ZM7.5 20.5257C6.7558 20.5257 6.05161 20.8326 5.53965 21.3634C5.02917 21.8926 4.75 22.6011 4.75 23.3308C4.75 24.0605 5.02917 24.769 5.53965 25.2982C6.05161 25.829 6.7558 26.1359 7.5 26.1359C8.2442 26.1359 8.94839 25.829 9.46035 25.2982C9.97083 24.769 10.25 24.0605 10.25 23.3308C10.25 22.6011 9.97083 21.8926 9.46035 21.3634C8.94839 20.8326 8.2442 20.5257 7.5 20.5257ZM1.5 23.0257C3.12801 23.0257 4.33459 21.9302 5.0673 21.0618C5.23685 20.8609 5.42871 20.6812 5.63927 20.5267C6.188 20.1242 6.8381 19.9116 7.5 19.9116C8.1619 19.9116 8.812 20.1242 9.36073 20.5267C9.50698 20.634 9.66332 20.7518 9.82749 20.8756C10.355 21.2731 10.9634 21.7317 11.5783 22.0976C12.4128 22.5942 13.4179 23.0257 14.5813 23.0257H22.5C22.5514 23.0257 22.6103 23.0464 22.661 23.0989C22.7131 23.153 22.75 23.2356 22.75 23.3308C22.75 23.426 22.7131 23.5086 22.661 23.5626C22.6103 23.6152 22.5515 23.6359 22.5 23.6359H14.5813C13.4179 23.6359 12.4128 24.0673 11.5783 24.564C10.9634 24.9299 10.355 25.3884 9.82748 25.786C9.66331 25.9098 9.50698 26.0276 9.36073 26.1349C8.812 26.5374 8.1619 26.75 7.5 26.75C6.8381 26.75 6.188 26.5374 5.63927 26.1349C5.42871 25.9804 5.23686 25.8007 5.0673 25.5998C4.33459 24.7314 3.12801 23.6359 1.5 23.6359C1.44855 23.6359 1.38967 23.6152 1.33903 23.5626C1.2869 23.5086 1.25 23.426 1.25 23.3308C1.25 23.2356 1.2869 23.153 1.33903 23.0989C1.38968 23.0464 1.44855 23.0257 1.5 23.0257Z"
+          stroke="white" stroke-width="2.5" />
+      </svg>
+    </div>
+
+    <div class="rounded-[32px] pr-5 bg-white/20 backdrop-blur-sm flex items-center justify-between">
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
+          <g filter="url(#filter0_b_16_21)">
+            <circle cx="32" cy="32" r="32" fill="black" fill-opacity="0.05" />
+          </g>
+          <path opacity="0.5"
+            d="M12 30.5C11.1716 30.5 10.5 31.1716 10.5 32C10.5 32.8284 11.1716 33.5 12 33.5V30.5ZM53.0607 33.0607C53.6464 32.4749 53.6464 31.5251 53.0607 30.9393L43.5147 21.3934C42.9289 20.8076 41.9792 20.8076 41.3934 21.3934C40.8076 21.9792 40.8076 22.9289 41.3934 23.5147L49.8787 32L41.3934 40.4853C40.8076 41.0711 40.8076 42.0208 41.3934 42.6066C41.9792 43.1924 42.9289 43.1924 43.5147 42.6066L53.0607 33.0607ZM12 33.5H52V30.5H12V33.5Z"
+            fill="white" />
+          <defs>
+            <filter id="filter0_b_16_21" x="-40" y="-40" width="144" height="144" filterUnits="userSpaceOnUse"
+              color-interpolation-filters="sRGB">
+              <feFlood flood-opacity="0" result="BackgroundImageFix" />
+              <feGaussianBlur in="BackgroundImageFix" stdDeviation="20" />
+              <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_16_21" />
+              <feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_16_21" result="shape" />
+            </filter>
+          </defs>
+        </svg>
+      </div>
+
+
+
+      <div id="anotherPlace" class="text-sm tracking-wider font-semibold text-white opacity-75 pl-3">
+        Lieu aléatoire suivant
+
+        <style>
+          #anotherPlace {
+            font-variant: small-caps;
+          }
+        </style>
+      </div>
+    </div>
+  </div>
+
+  <div id="closeInfo" class="hidden fixed inset-0 bg-white/20 backdrop-blur-md overflow-auto ">
+    <div class="mx-4">
+      <div class="flex justify-center">
+
+        <button>
+          <svg id="closedArrow" class="absolute left-3 pointer-events-auto" xmlns="http://www.w3.org/2000/svg"
+            width="16" height="24" viewBox="0 0 16 24" fill="none">
+            <g clip-path="url(#clip0_24_199)">
+              <path
+                d="M9 2C9 1.44772 8.55228 1 8 1C7.44772 1 7 1.44772 7 2L9 2ZM7.29289 22.7071C7.68342 23.0976 8.31658 23.0976 8.7071 22.7071L15.0711 16.3431C15.4616 15.9526 15.4616 15.3195 15.0711 14.9289C14.6805 14.5384 14.0474 14.5384 13.6569 14.9289L8 20.5858L2.34314 14.9289C1.95262 14.5384 1.31946 14.5384 0.928931 14.9289C0.538407 15.3195 0.538407 15.9526 0.928931 16.3431L7.29289 22.7071ZM7 2L7 22L9 22L9 2L7 2Z"
+                fill="#3E4A5B" />
+            </g>
+            <defs>
+              <clipPath id="clip0_24_199">
+                <rect width="24" height="16" fill="white" transform="matrix(0 -1 1 0 0 24)" />
+              </clipPath>
+            </defs>
+          </svg>
+        </button>
+
+
+
+        <h1 class="titleInfo text-xl text-center w-24 pb-2">Tout sur Besançon</h1>
+        <style>
+          .titleInfo {
+            font-variant: small-caps;
+          }
+        </style>
+      </div>
+
+      <div class="flex flex-col pb-5 ">
+        <h2 class="titleInfo text-xl font-medium py-2">à propos</h2>
+
+        <p class="text-xs font-normal">
+          Besançon est une ville de l'est de la France, proche de la frontière suisse. Le centre
+          historique est enserré dans un méandre du Doubs en forme de fer à cheval, et dominé par la
+          citadelle de Besançon bâtie au sommet d'une colline. Cette forteresse du XVIIe siècle abrite
+          plusieurs musées et un zoo. Au pied de la colline, la cathédrale de Besançon est dotée d'une
+          horloge astronomique unique à 70 cadrans qui indique le lever et le coucher du soleil, les
+          marées dans les ports français, ainsi que les éclipses.
+        </p>
+      </div>
+      <div class="flex flex-row items-center  pb-2">
+        <h2 class="titleInfo text-xl font-medium pr-2 ">population :</h2>
+        <div class="text-base mx-2">116 676 (2015)
+          <a class="text-blue-600" href="#">INSEE</a>
+        </div>
+      </div>
+      <div class="flex flex-row items-center  pb-2">
+        <h2 class="titleInfo text-xl font-medium pr-2 ">maire :</h2>
+        <div class="text-base mx-2">Anne Vignot</div>
+      </div>
+      <div class="flex flex-row items-center  pb-2">
+        <h2 class="titleInfo text-xl font-medium pr-2">superficie :</h2>
+        <div class="text-base mx-2">65.05 km²</div>
+      </div>
+      <div class="flex flex-row items-center  pb-6">
+        <h2 class="titleInfo text-xl font-medium pr-2 ">altitude :</h2>
+        <div class="text-base mx-2">Min.235m - Max.620m</div>
+      </div>
+
+      <div class="wikiLink pb-4">
+        <a class="text-blue-600" href="https://fr.wikipedia.org/wiki/Besan%C3%A7on">→ Page Wikipédia</a>
+        <style>
+          .wikiLink {
+            font-variant: small-caps;
+          }
+        </style>
+      </div>
+
+      <!-- <div class="flex justify-center"> -->
+      <div class="flex justify-center gap-2 mb-2">
+        <img src="image/image 2.png" alt="">
+        <img src="image/image 3.png" alt="">
+      </div>
+      <div class="flex justify-center gap-2">
+        <img src="image/image 4.png" alt="">
+        <img src="image/image 5.png" alt="">
+      </div>
+    </div>
+  </div>
+
+  </div>
+
+</body>
+
+</html>
